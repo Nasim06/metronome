@@ -1,14 +1,28 @@
 
 import './App.css';
-import { useEffect } from 'react';
+import {useState } from 'react';
+
 
 function App() {
 
+  const [time, setTime] = useState(0)
+  const [timerOn, setTimerOn] = useState(false)
+  let startTime
 
-  
+  function start(){
+      if(timerOn === true){
+          setTime(0)
+      }
+      setTimerOn(true)
+      startTime = Date.now()
+      while(timerOn === false){
+          setTime(Date.now()-startTime)
+      }
+  }
 
-
-
+  function stop(){
+      setTimerOn(false)
+  }
 
   return (
     <>
@@ -18,8 +32,9 @@ function App() {
 
       <div className='main'>
 
-
-        <button >Start Tempo</button>
+        <h1>{time}</h1>
+        <button className='startButton' onClick={start}>Start Tempo</button>
+        <button className='stopButton' onClick={stop}>Stop Tempo</button>
 
 
 
