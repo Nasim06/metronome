@@ -1,6 +1,6 @@
 
 import './App.css';
-import {useState } from 'react';
+import {useState, useEffect } from 'react';
 
 
 function App() {
@@ -8,21 +8,23 @@ function App() {
   const [time, setTime] = useState(0)
   const [timerOn, setTimerOn] = useState(false)
   let startTime
+  let nf = Intl.NumberFormat()
 
-  function start(){
-      if(timerOn === true){
-          setTime(0)
-      }
-      setTimerOn(true)
-      startTime = Date.now()
-      while(timerOn === false){
-          setTime(Date.now()-startTime)
-      }
-  }
+useEffect(() => {
 
-  function stop(){
-      setTimerOn(false)
+  let interval = null;
+  if(timerOn){
+    interval = setInterval(() => {
+      setTime(prevTime => prevTime + 10)
+    }, 10)
+  }else{
+    clearInterval(interval)
   }
+  
+  return () => clearInterval(interval)
+}, [timerOn])
+
+
 
   return (
     <>
@@ -32,9 +34,9 @@ function App() {
 
       <div className='main'>
 
-        <h1>{time}</h1>
-        <button className='startButton' onClick={start}>Start Tempo</button>
-        <button className='stopButton' onClick={stop}>Stop Tempo</button>
+        <h1>{nf.format(time)}</h1>
+        <button className='startButton' onClick={() => setTimerOn(true)}>Start Tempo</button>
+        <button className='stopButton' onClick={() => setTimerOn(false)}>Stop Tempo</button>
 
 
 
