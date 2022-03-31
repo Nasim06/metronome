@@ -5,33 +5,54 @@ import {useState, useEffect } from 'react';
 
 function App() {
 
-  const [time, setTime] = useState(0)
-  const [timerOn, setTimerOn] = useState(false)
-  let nf = Intl.NumberFormat()
+  const [time, setTime] = useState(0);
+  const [timerOn, setTimerOn] = useState(false);
+  const [sound, toggleSound] = useState(false);
+  let nf = Intl.NumberFormat();
+  const click = new Audio('click.wav');
 
   useEffect(() => {
 
     let interval = null;
     if(timerOn){
       interval = setInterval(() => {
-        setTime(prevTime => prevTime + 10)
+        setTime(prevTime => prevTime + 10);
       }, 10)
     }else{
-      clearInterval(interval)
+      clearInterval(interval);
     }
     
-    return () => clearInterval(interval)
+    return () => clearInterval(interval);
   }, [timerOn])
 
-  let playPause = () => {
+  let startStop = () => {
 
     if(timerOn === false){
-      setTimerOn(true)
+      setTimerOn(true);
     }
     else{
-      setTimerOn(false)
+      setTimerOn(false);
     }
   }
+
+  useEffect(() => {
+    let interval = null;
+    if(sound){
+      interval = setInterval(() => {
+        click.play();
+      }, time)
+    }else{
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+}, [sound])
+
+let playPause = () => {
+  
+}
+
+
+
 
   return (
     <>
@@ -42,7 +63,8 @@ function App() {
       <div className='main'>
 
         <h1 className='time'>{nf.format(time)}</h1>
-        <button className='startButton' onClick={playPause}>Start Tempo</button>
+        <button className='setButton' onClick={startStop}>Set Tempo</button>
+        <button className='startButton' >Start Metronome</button>
 
       </div>
     
