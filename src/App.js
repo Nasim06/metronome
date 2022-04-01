@@ -10,6 +10,7 @@ function App() {
   const [sound, toggleSound] = useState(false);
   let nf = Intl.NumberFormat();
   const click = new Audio('click.wav');
+  let tempo = null;
 
   useEffect(() => {
 
@@ -48,11 +49,13 @@ function App() {
 }, [sound])
 
 let playPause = () => {
-  
+  if(sound === false){
+    toggleSound(true);
+  }
+  else{
+    toggleSound(false);
+  }
 }
-
-
-
 
   return (
     <>
@@ -64,7 +67,7 @@ let playPause = () => {
 
         <h1 className='time'>{nf.format(time)}</h1>
         <button className='setButton' onClick={startStop}>Set Tempo</button>
-        <button className='startButton' >Start Metronome</button>
+        <button className='startButton' onClick={playPause} >Start Metronome</button>
 
       </div>
     
