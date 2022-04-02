@@ -3,6 +3,7 @@ import './App.css';
 import {useState, useEffect } from 'react';
 
 
+
 function App() {
 
   const [time, setTime] = useState(0);
@@ -33,20 +34,13 @@ function App() {
     }
     else{
       setTimerOn(false);
+      tempo = time;
     }
   }
 
   useEffect(() => {
-    let interval = null;
-    if(sound){
-      interval = setInterval(() => {
-        click.play();
-      }, time)
-    }else{
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-}, [sound])
+    
+  }, [sound])
 
 let playPause = () => {
   if(sound === false){
